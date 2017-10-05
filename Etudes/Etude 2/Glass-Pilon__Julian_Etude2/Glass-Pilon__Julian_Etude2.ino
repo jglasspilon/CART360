@@ -347,9 +347,22 @@ void loopMode()
   }
 }
 
-/*************************************************************************/
-/*                              Analysis                                 */
-/* 
+/*  *  *  *  *  *                        Keyboard Analysis                         *  *  *  *  *  *
+ *  The way keyboard functions (resistor ladder) is by creating mulitple posible circuits         *
+ *  in series, determined by the switches. If the first switch is pressed, the current            *
+ *  will pass through that switch and through only one resistor, causing a higher frequency       *
+ *  sound to play since we get a higher current. However, by pressing a switch further down the   *
+ *  resistor ladder, the current must pass through more resistors, therefore losing current       *
+ *  along the way, resulting in a lower frequency sound due to the lower current strength.        *
+ *                                                                                                *
+ *  Since these switches are coneccted in parallel, any resistor added further down the ladder    *
+ *  won't affect switches closer to the start of the circuit. I wanted to test this so I set up   *
+ *  each resistor at 100 ohms except for the furthest resitor, which I set to 10k ohms. This      *
+ *  resulted in the first 3 switches (I only used 4 switches for the sounds) to play different    *
+ *  audible sounds. However, the last switch did not produce any sound. this was because the      *
+ *  current was completely reduced and the piezo buzzer didn't recieve a high enough frequency    *
+ *  to be played.                                                                                 *
+ */
 
 
 
