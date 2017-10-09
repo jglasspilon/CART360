@@ -97,7 +97,7 @@ int currentNote = 0;
 void setup()
 {
   pinMode(BUTTON_MODE_PIN, INPUT);
-  Serial.println(9600);
+  Serial.begin(9600);
 }
 
 /**********************LOOP() DO NOT CHANGE *******************************
@@ -314,6 +314,17 @@ void recordWithDuration()
 {
   // to handle a little bit of noise
   int theAdjuster = 8;
+
+   runningAverageBuffer[nextCount] = analogRead(PHOTO_PIN);
+   if(nextCount < RUNNING_SAMPLES)
+   {
+      nextCount++;
+   }
+   else
+   {
+      nextCount = 0;
+   }
+  
   // check we have not stored more than 16 notes
   if (countNotes < MAX_NOTES)
   {
@@ -450,7 +461,7 @@ int getPhotoFrequency()
 {
   //IMPLEMENT
   int rawFrequency = analogRead(PHOTO_PIN);
-  return rawFrequency * 3; //scaling by 3 to get a more recognizable range
+  return rawFrequency; 
 }
 
 /******************GETRUNNINGAVERAGE(): IMPLEMENT *********************************
@@ -499,9 +510,13 @@ void playWithDuration()
     if(timePassed == 0)
     {
       startUpTimer();
-      colorLED(notes[currentNote]);
+      colorLED(notes[currentNote]/10); ////////////////////////////////// why doesn't this do anything!!!!!
       tone(BUZZER_PIN, notes[currentNote], durations[currentNote]);
-      Serial.println(notes[currentNote]);
+      
+      Serial.print("from pin: ");
+      Serial.println(analogRead(LED_PIN_G));
+      Serial.print("from code: ");
+      Serial.println(notes[currentNote]/10);
     }
     updateTimer();
   
