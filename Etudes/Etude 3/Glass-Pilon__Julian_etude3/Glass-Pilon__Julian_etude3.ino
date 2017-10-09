@@ -97,6 +97,7 @@ int currentNote = 0;
 void setup()
 {
   pinMode(BUTTON_MODE_PIN, INPUT);
+  Serial.println(9600);
 }
 
 /**********************LOOP() DO NOT CHANGE *******************************
@@ -244,6 +245,7 @@ void selectMode()
 void reset()
 {
  countNotes = 0; 
+ currentNote = 0;
 }
 /******************LIVE()  - RE-IMPLEMENT **************************************
  * INSTRUCTIONS:
@@ -491,26 +493,30 @@ void colorLED(int col)
 void playWithDuration()
 {
   //IMPLEMENT
-  //if the timer hasn't started yet, then start it and play the note
-  if(timePassed == 0)
+  if(countNotes > 0)
   {
-    startUpTimer();
-    colorLED(notes[currentNote]);
-    tone(BUZZER_PIN, notes[currentNote], durations[currentNote]);
-  }
-  updateTimer();
-
-  //if the timer has passed the current note's duration
-  if(timePassed > durations[currentNote])
-  {
-    //reset the timer
-    startUpTimer();
-
-    //go to the next note
-    if(currentNote < countNotes)
-      currentNote++;
-    else
-      currentNote = 0;
+    //if the timer hasn't started yet, then start it and play the note
+    if(timePassed == 0)
+    {
+      startUpTimer();
+      colorLED(notes[currentNote]);
+      tone(BUZZER_PIN, notes[currentNote], durations[currentNote]);
+      Serial.println(notes[currentNote]);
+    }
+    updateTimer();
+  
+    //if the timer has passed the current note's duration
+    if(timePassed > durations[currentNote])
+    {
+      //reset the timer
+      startUpTimer();
+  
+      //go to the next note
+      if(currentNote < countNotes)
+        currentNote++;
+      else
+        currentNote = 0;
+    }
   }
 }
 
